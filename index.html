@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+<body>
+    <p>Find your book here</p>
+    <div id="result">
+
+    </div>
+    
+
+
+    <button id="ajaxButton" type="button">Get a Book</button>
+
+<script>
+(function() {
+  let httpRequest;
+  document.getElementById("ajaxButton").addEventListener('click', makeRequest);
+
+  function makeRequest() {
+    httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+      alert('Giving up :( Cannot create an XMLHTTP instance');
+      return false;
+    }
+    httpRequest.onreadystatechange = displayContents;
+    httpRequest.open('GET', 'https://openlibrary.org/api/books?bibkeys=ISBN:0451526538');
+    httpRequest.send();
+  }
+
+  function displayContents() {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        let result = document.getElementById("result")
+result.append(httpRequest.responseText);
+      } else {
+        let result = document.getElementById("result")
+result.append('There was a problem with the request.');
+      }
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
